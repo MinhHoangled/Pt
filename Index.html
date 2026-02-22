@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lì Xì Online - Tết Bính Ngọ 2026</title>
+    
+    <!-- Import Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-red: #8E0000;
+            --bright-red: #D90429;
+            --gold: #FFD700;
+            --light-gold: #FCEFB4;
+            --text-color: #333;
+            --white: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.85);
+            --success-green: #28a745;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: radial-gradient(circle at center, var(--bright-red), var(--primary-red));
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -webkit-overflow-scrolling: touch; 
+        }
+
+        /* --- Nút Cài Đặt --- */
+        .settings-btn {
+            position: fixed; top: 20px; right: 20px;
+            background: rgba(0,0,0,0.3); color: var(--gold);
+            border: 2px solid var(--gold);
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 100; transition: all 0.3s;
+        }
+        .settings-btn:hover { background: var(--gold); color: var(--primary-red); transform: rotate(90deg); }
+
+        /* --- Hiệu ứng nền --- */
+        .falling-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; overflow: hidden;
+        }
+        .flower {
+            position: absolute; background-color: var(--light-gold);
+            width: 10px; height: 10px; border-radius: 50% 0 50% 50%;
+            opacity: 0.8; animation: fall linear infinite;
+        }
+        @keyframes fall { to { transform: translateY(105vh) rotate(720deg); } }
+
+        /* --- Container Chính --- */
+        .card-container {
+            background: rgba(255, 255, 255, 0.98);
+            width: 95%; max-width: 450px;
+            border-radius: 20px; padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px var(--gold);
+            border: 2px solid var(--gold);
+            position: relative; z-index: 10;
+            color: var(--text-color);
+            margin: 20px 0;
+        }
+
+        .corner-decoration { position: absolute; width: 40px; height: 40px; pointer-events: none; }
+        .top-left { top: -8px; left: -8px; border-top: 3px solid var(--gold); border-left: 3px solid var(--gold); }
+        .top-right { top: -8px; right: -8px; border-top: 3px solid var(--gold); border-right: 3px solid var(--gold); }
+        .bottom-left { bottom: -8px; left: -8px; border-bottom: 3px solid var(--gold); border-left: 3px solid var(--gold); }
+        .bottom-right { bottom: -8px; right: -8px; border-bottom: 3px solid var(--gold); border-right: 3px solid var(--gold); }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-red); font-size: 1.8rem;
+            margin-bottom: 5px; text-transform: uppercase;
+            font-weight: 900; letter-spacing: 0.5px;
+        }
+
+        .sub-title {
+            font-family: 'Dancing Script', cursive; font-size: 1.8rem;
+            color: var(--gold); background: var(--primary-red);
+            display: inline-block; padding: 2px 15px;
+            border-radius: 50px; margin-bottom: 15px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+
+        .horse-icon {
+            font-size: 3.5rem; color: var(--primary-red); margin: 10px 0;
+            animation: gallop 2s infinite ease-in-out;
+        }
+        @keyframes gallop {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(-5deg); }
+        }
+
+        /* --- VIEW MODE --- */
+        .message-card {
+            background: #fff5f5; border: 2px dashed var(--primary-red);
+            border-radius: 15px; padding: 20px; margin-bottom: 20px;
+            position: relative;
+        }
+        .message-card::before {
+            content: "\f10d"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; top: -15px; left: 10px;
+            font-size: 2rem; color: var(--gold); background: var(--primary-red);
+            padding: 5px; border-radius: 5px;
+        }
+        .msg-to { font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 5px; text-align: left; }
+        .msg-content { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 1.5rem; color: var(--primary-red); 
+            line-height: 1.5; margin: 15px 0;
+            font-weight: bold;
+            text-align: justify;
+            text-align-last: center;
+        }
+        .msg-from { font-size: 1rem; color: #333; font-weight: bold; text-align: right; margin-top: 10px; }
+
+        /* --- EDIT MODE --- */
+        .sender-form {
+            background: #f8f9fa; padding: 15px;
+            border-radius: 10px; margin-top: 15px;
+            border: 1px solid #ddd;
+        }
+        .form-group { margin-bottom: 12px; text-align: left; position: relative; }
+        .form-group label {
+            display: block; font-size: 0.85rem; color: var(--primary-red);
+            font-weight: 700; margin-bottom: 5px;
+        }
+        .form-control {
+            width: 100%; padding: 10px; border: 1px solid #ccc;
+            border-radius: 6px; font-family: inherit; font-size: 16px;
+        }
+        textarea.form-control { min-height: 80px; resize: vertical; }
+
+        .suggestion-btn {
+            position: absolute; right: 5px; top: 28px;
+            background: var(--light-gold); color: var(--primary-red);
+            border: 1px solid var(--gold); border-radius: 4px; padding: 2px 8px;
+            font-size: 0.7rem; cursor: pointer; font-weight: bold;
+        }
+
+        /* --- Buttons --- */
+        .btn-main {
+            background: linear-gradient(45deg, var(--primary-red), var(--bright-red));
+            color: var(--gold); border: none; width: 100%;
+            padding: 12px; font-size: 1.1rem; font-weight: bold;
+            border-radius: 50px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(217, 4, 41, 0.4);
+            margin-bottom: 15px; text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .btn-share {
+            background: #28a745; color: white; border: none;
+            padding: 12px; font-size: 1rem; font-weight: bold;
+            border-radius: 8px; cursor: pointer; width: 100%;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% {box-shadow: 0 0 0 0 rgba(40,167,69,0.7);} 70% {box-shadow: 0 0 0 10px rgba(40,167,69,0);} 100% {box-shadow: 0 0 0 0 rgba(40,167,69,0);} }
+
+        .btn-outline {
+            background: transparent; border: 1px solid #666; color: #666;
+            padding: 8px; width: 100%; border-radius: 50px; font-size: 0.9rem; cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .link-box {
+            display: none; background: #e8f5e9; border: 1px dashed #28a745;
+            padding: 10px; border-radius: 5px; font-size: 0.8rem;
+            margin-top: 10px; word-break: break-all; text-align: left;
+        }
+
+        /* --- Modals --- */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: var(--overlay-bg);
+            z-index: 100; justify-content: center; align-items: center;
+        }
+        .modal.show { display: flex; }
+        .modal-content {
+            background: white; padding: 25px; border-radius: 15px;
+            width: 90%; max-width: 380px; text-align: center;
+            border: 3px solid var(--gold); position: relative;
+        }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
+        
+        .qr-image { width: 180px; height: 180px; object-fit: contain; margin: 10px auto; border: 1px solid #eee; }
+        .bank-info { margin-top: 10px; text-align: left; background: #f9f9f9; padding: 10px; border-radius: 5px; font-size: 0.9rem; }
+        .bank-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .bank-value { font-weight: bold; color: var(--primary-red); }
+
+        .toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.9); color: white; padding: 12px 20px;
+            border-radius: 30px; z-index: 200; display: none; font-size: 0.9rem; white-space: nowrap;
+        }
+
+        .settings-input {
+            width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;
+        }
+
+        .hidden { display: none !important; }
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
+        .footer { font-size: 0.75rem; color: #888; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <!-- Nút Cài Đặt -->
+    <div class="settings-btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i></div>
+
+    <canvas id="confetti-canvas"></canvas>
+    <div class="falling-container" id="falling-container"></div>
+
+    <div class="card-container">
+        <div class="corner-decoration top-left"></div>
+        <div class="corner-decoration top-right"></div>
+        <div class="corner-decoration bottom-left"></div>
+        <div class="corner-decoration bottom-right"></div>
+
+        <div class="horse-icon"><i class="fa-solid fa-horse-head"></i></div>
+        <h1>Chúc Mừng Năm Mới</h1>
+        <div class="sub-title">Xuân Bính Ngọ 2026</div>
+
+        <!-- === CHẾ ĐỘ XEM (VIEW MODE) === -->
+        <div id="view-mode-area" class="hidden">
+            <div class="message-card">
+                <div class="msg-to">Gửi đến: <span id="view-receiver" style="font-weight: bold; color: #333;"></span></div>
+                <div class="msg-content" id="view-message"></div>
+                <div class="msg-from">Từ: <span id="view-sender"></span> <i class="fa-solid fa-heart" style="color:red; font-size: 0.8rem;"></i></div>
+            </div>
+
+            <button class="btn-main" onclick="openQRModal()">
+                <i class="fa-solid fa-envelope-open-text"></i> Lì xì cho <span id="view-owner-name">mình</span>
+            </button>
+            
+            <button class="btn-outline" onclick="switchToEditMode()">
+                <i class="fa-solid fa-pen"></i> Tôi cũng muốn tạo thiệp
+            </button>
+        </div>
+
+        <!-- === CHẾ ĐỘ SỬA (EDIT MODE) === -->
+        <div id="edit-mode-area">
+            <p class="random-greeting" id="greeting-quote">"Tết này vẫn giống tết xưa. Vẫn đi xe số vẫn chưa có bồ."</p>
+
+            <button class="btn-main" onclick="openQRModal()">
+                <i class="fa-solid fa-envelope-open-text"></i> Lì xì cho tớ đi
+            </button>
+
+            <div class="sender-form">
+                <h3 style="color: var(--primary-red); font-size: 1rem; margin-bottom: 10px; border-bottom: 1px dashed #ccc; padding-bottom: 5px;">
+                    <i class="fa-solid fa-pen-nib"></i> Tạo Thiệp Của Bạn
+                </h3>
+
+                <div class="form-group">
+                    <label>Bạn gửi cho ai? (Người nhận)</label>
+                    <input type="text" id="inputReceiver" class="form-control" placeholder="VD: Phương Thảo, Bạn Thân...">
+                </div>
+
+                <div class="form-group">
+                    <label>Tên của bạn (Người gửi)</label>
+                    <input type="text" id="inputSender" class="form-control" placeholder="VD: Minh Hoàng...">
+                </div>
+
+                <div class="form-group">
+                    <label>Lời chúc</label>
+                    <button class="suggestion-btn" onclick="autoFillWish()">Gợi ý nhanh</button>
+                    <textarea id="inputMessage" class="form-control" placeholder="Nhập lời chúc ở đây..."></textarea>
+                </div>
+
+                <button class="btn-share" onclick="generateLinkAndCopy()">
+                    <i class="fa-solid fa-link"></i> COPY LINK ĐỂ GỬI
+                </button>
+                
+                <div id="generated-link-box" class="link-box">
+                    <strong>Link thiệp của bạn:</strong><br>
+                    <span id="final-link-text" style="color: blue; text-decoration: underline;"></span>
+                    <div style="margin-top:5px; font-style:italic; color:#666;">(Đã copy! Hãy dán link này gửi cho bạn bè)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">Design by Minh Hoàng | Tet 2026</div>
+    </div>
+
+    <!-- Modal QR -->
+    <div class="modal" id="qrModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeQRModal()">&times;</span>
+            <h3 style="color: var(--primary-red);">Lì Xì May Mắn</h3>
+            <img src="" id="qr-img" class="qr-image" alt="QR">
+            <div class="bank-info">
+                <div class="bank-row"><span>Ngân hàng:</span><span class="bank-value" id="bank-name">MB</span></div>
+                <div class="bank-row">
+                    <span>Số TK:</span>
+                    <span><span class="bank-value" id="bank-number">...</span> <i class="fa-regular fa-copy" onclick="copyBank()" style="cursor:pointer;"></i></span>
+                </div>
+                <div class="bank-row"><span>Chủ TK:</span><span class="bank-value" id="account-holder">...</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Settings -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeSettings()">&times;</span>
+            <h3>Cài Đặt Của Bạn</h3>
+            <p style="font-size:0.8rem; margin-bottom:10px;">Nhập thông tin nhận tiền của bạn vào đây.</p>
+            <div style="text-align: left;">
+                <label style="font-size:0.8rem; font-weight:bold;">Chủ TK (Viết hoa):</label>
+                <input type="text" id="set-holder" class="settings-input">
+                <label style="font-size:0.8rem; font-weight:bold;">Ngân hàng:</label>
+                <input type="text" id="set-bank" class="settings-input">
+                <label style="font-size:0.8rem; font-weight:bold;">Số TK:</label>
+                <input type="text" id="set-number" class="settings-input">
+                <label style="font-size:0.8rem; font-weight:bold;">Link ảnh QR:</label>
+                <input type="text" id="set-qr" class="settings-input" placeholder="https://...">
+            </div>
+            <button class="btn-main" onclick="saveSettings()" style="margin-top:15px; font-size:1rem;">Lưu & Đóng</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Thông báo</div>
+
+    <script>
+        // Cấu hình mặc định
+        let config = {
+            h: "DO MINH HOANG", 
+            b: "Vietcombank", 
+            n: "0851000033621",
+            qr: "https://img.vietqr.io/image/Vietcombank-0851000033621-compact.jpg?amount=&addInfo=Li%20Xi%20Tet%202026&accountName=DO%20MINH%20HOANG",
+            greetings: [
+                "Năm mới phát tài, tiền vào như nước!",
+                "Chúc bạn vạn sự như ý, tỷ sự như mơ.",
+                "Xuân Bính Ngọ, mã đáo thành công!",
+                "Sức khỏe vô biên, kiếm được nhiều tiền, đời sướng như tiên."
+            ]
+        };
+
+        // --- DỮ LIỆU CẬP NHẬT: PHƯƠNG THẢO ---
+        const MY_DATA = {
+            sender: "Minh Hoàng",
+            receiver: "Phương Thảo",
+            message: "Chào Phương Thảo, nhân dịp năm mới Bính Ngọ 2026, mình chúc bạn và gia đình một năm thật nhiều sức khỏe, bình an và vạn sự như ý! 🌸\n\nChúc bạn công việc luôn hanh thông, gia đình nhỏ lúc nào cũng ngập tràn niềm vui và hạnh phúc. Chúc mừng năm mới! ✨"
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+            createFallingFlowers();
+        });
+
+        function initApp() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dataParam = urlParams.get('data');
+            let isViewMode = false;
+
+            if (dataParam) {
+                try {
+                    const jsonStr = decodeURIComponent(escape(atob(dataParam)));
+                    const data = JSON.parse(jsonStr);
+
+                    if(data.h) config.h = data.h;
+                    if(data.b) config.b = data.b;
+                    if(data.n) config.n = data.n;
+                    if(data.qr) config.qr = data.qr;
+
+                    if (data.s && data.r && data.m) {
+                        isViewMode = true;
+                        displayViewMode(data.r, data.s, data.m);
+                    } else if(data.r) {
+                        document.getElementById('inputReceiver').value = data.r;
+                    }
+                } catch (e) { console.error("Lỗi giải mã:", e); }
+            } else {
+                isViewMode = true;
+                displayViewMode(MY_DATA.receiver, MY_DATA.sender, MY_DATA.message);
+                
+                document.getElementById('inputSender').value = MY_DATA.sender;
+                document.getElementById('inputReceiver').value = MY_DATA.receiver;
+                document.getElementById('inputMessage').value = MY_DATA.message;
+            }
+
+            updateBankUI();
+
+            if (isViewMode) {
+                document.getElementById('view-mode-area').classList.remove('hidden');
+                document.getElementById('edit-mode-area').classList.add('hidden');
+            } else {
+                document.getElementById('view-mode-area').classList.add('hidden');
+                document.getElementById('edit-mode-area').classList.remove('hidden');
+                const rand = config.greetings[Math.floor(Math.random() * config.greetings.length)];
+                document.getElementById('greeting-quote').innerText = `"${rand}"`;
+            }
+        }
+
+        function displayViewMode(receiver, sender, message) {
+            document.getElementById('view-receiver').innerText = receiver;
+            document.getElementById('view-sender').innerText = sender;
+            document.getElementById('view-message').innerText = message;
+            document.getElementById('view-owner-name').innerText = sender; 
+        }
+
+        function updateBankUI() {
+            document.getElementById('account-holder').innerText = config.h;
+            document.getElementById('bank-name').innerText = config.b;
+            document.getElementById('bank-number').innerText = config.n;
+            document.getElementById('qr-img').src = config.qr;
+
+            document.getElementById('set-holder').value = config.h;
+            document.getElementById('set-bank').value = config.b;
+            document.getElementById('set-number').value = config.n;
+            document.getElementById('set-qr').value = config.qr.startsWith('data:') ? '' : config.qr;
+        }
+
+        function generateLinkAndCopy() {
+            const sender = document.getElementById('inputSender').value.trim();
+            const receiver = document.getElementById('inputReceiver').value.trim();
+            const msg = document.getElementById('inputMessage').value.trim();
+
+            if (!sender || !receiver || !msg) {
+                showToast("Vui lòng điền đủ tên và lời chúc!");
+                return;
+            }
+
+            const dataObj = {
+                h: config.h, b: config.b, n: config.n, qr: config.qr,
+                s: sender, r: receiver, m: msg
+            };
+
+            const jsonStr = JSON.stringify(dataObj);
+            const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+            const baseUrl = window.location.href.split('?')[0];
+            const finalLink = `${baseUrl}?data=${encoded}`;
+
+            window.history.pushState({}, '', finalLink);
+            document.getElementById('generated-link-box').style.display = 'block';
+            document.getElementById('final-link-text').innerText = finalLink;
+
+            navigator.clipboard.writeText(finalLink)
+                .then(() => showToast("Đã COPY link! Gửi ngay cho bạn bè."))
+                .catch(() => showToast("Không tự copy được. Hãy copy link ở dưới!"));
+        }
+
+        function switchToEditMode() {
+            document.getElementById('view-mode-area').classList.add('hidden');
+            document.getElementById('edit-mode-area').classList.remove('hidden');
+            const baseUrl = window.location.href.split('?')[0];
+            window.history.pushState({}, '', baseUrl);
+        }
+
+        function openSettings() { document.getElementById('settingsModal').classList.add('show'); }
+        function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
+        
+        function saveSettings() {
+            config.h = document.getElementById('set-holder').value;
+            config.b = document.getElementById('set-bank').value;
+            config.n = document.getElementById('set-number').value;
+            const qrInput = document.getElementById('set-qr').value;
+            if(qrInput) config.qr = qrInput;
+            updateBankUI();
+            closeSettings();
+            showToast("Đã lưu thông tin ngân hàng!");
+        }
+
+        function openQRModal() { document.getElementById('qrModal').classList.add('show'); }
+        function closeQRModal() { document.getElementById('qrModal').classList.remove('show'); }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg; t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 3000);
+        }
+
+        function copyBank() {
+            navigator.clipboard.writeText(config.n).then(() => showToast("Đã copy số tài khoản!"));
+        }
+
+        function autoFillWish() {
+            document.getElementById('inputMessage').value = MY_DATA.message;
+        }
+
+        window.onclick = function(e) {
+            if (e.target == document.getElementById('qrModal')) closeQRModal();
+            if (e.target == document.getElementById('settingsModal')) closeSettings();
+        }
+
+        function createFallingFlowers() {
+            const container = document.getElementById('falling-container');
+            for (let i = 0; i < 20; i++) {
+                const f = document.createElement('div');
+                f.classList.add('flower');
+                f.style.left = Math.random() * 100 + 'vw';
+                f.style.animationDuration = Math.random() * 3 + 5 + 's';
+                f.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(f);
+            }
+        }
+    </script>
+</body>
+</html>
+
